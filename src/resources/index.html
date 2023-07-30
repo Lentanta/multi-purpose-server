@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css"
+    integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
+  <title>Websites management</title>
+</head>
+
+<body>
+  <form id="create-note-form" class="pure-form pure-form-stacked">
+    <fieldset>
+      <legend>Create note</legend>
+      <label for="note-type">Note type</label>
+      <input type="text" id="note-type" name="note-type" placeholder="Note type" />
+
+      <label for="note-content">Note content</label>
+      <textarea type="text" id="note-content" name="note-content" placeholder="Note content" class="pure-input-1-1">
+
+      </textarea>
+
+      <button type="submit" class="pure-button pure-button-primary">Submit</button>
+    </fieldset>
+  </form>
+
+  <form method="GET" action="/api/notes">
+    <button type="submit" class="pure-button pure-button-primary">Get all</button>
+  </form>
+
+  <script>
+    const form = document.getElementById("create-note-form");
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const type = document.getElementById("note-type").value;
+      const content = document.getElementById("note-content").value;
+
+      fetch('/api/notes', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+          type: document.getElementById("note-type").value, 
+          content: document.getElementById("note-content").value.trim() 
+        })
+      })
+        .then(response => response.json())
+        .then(response => console.log(JSON.stringify(response)))
+    })
+  </script>
+</body>
+
+</html>

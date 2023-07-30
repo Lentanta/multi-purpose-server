@@ -5,7 +5,7 @@ import { v4 as generateUUID } from 'uuid';
 
 export const getAllNotes = async (_: Request, res: Response) => {
   try {
-    const allNotes = await sql`SELECT * FROM note`;
+    const allNotes = await sql`SELECT * FROM notes`;
 
     return res.status(200).json(allNotes);
   } catch (error) {
@@ -15,21 +15,21 @@ export const getAllNotes = async (_: Request, res: Response) => {
 
 export const createOneNote = async (req: Request, res: Response) => {
   try {
-    const defaultRequestValue = { content: "" };
-    const requestBody = first<{ content: string }>(req.body)
-      || defaultRequestValue;
+    const defaultRequestValue = { type: "", content: "" };
+    const requestBody = req.body || defaultRequestValue;
+    const { type, content } = requestBody;
 
-    const { content } = requestBody;
     const uuid = generateUUID();
 
     const createdNote = await sql`
-      INSERT INTO note (id,content) 
-      VALUES (${uuid},${content})
-      RETURNING id,content
+      INSERT INTO notes (id, type, content) 
+      VALUES (${uuid}, ${type}, ${content})
+      RETURNING id, type, content
     `;
 
     return res.status(200).json(first(createdNote));
   } catch (error) {
+    console.log(error)
     return res.send("ERROR: " + error)
   }
 };
@@ -40,7 +40,7 @@ export const deleteOneNote = async (req: Request, res: Response) => {
     const { noteId } = req.params || defaultRequestValue;
 
     await sql`
-      DELETE FROM note 
+      DELETE FROM notes 
       WHERE id=${noteId};
     `;
 
