@@ -48,6 +48,7 @@ app.get("/reset-database", async (_: Request, res: Response) => {
   }
 })
 
+
 app.listen(port, () => {
   console.log(`Server is running at ${port}`)
 });
