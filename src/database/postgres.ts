@@ -1,13 +1,10 @@
-import postgres from 'postgres'
-import dotenv from "dotenv";
-dotenv.config();
+import { Pool } from "pg";
+import "dotenv/config";
 
-const postgresOptions: postgres.Options<{}> = {
-  host: process.env.DB_HOST_SERVER || "none",
+export const pool = new Pool({
+  host: process.env.DB_HOST_SERVER || "localhost",
   port: parseInt(process.env.DB_PORT || "5432"),
-  user: process.env.DB_USER || "none",
-  database: process.env.DB_NAME || "none",
-  password: process.env.DB_PASSWORD || "none"
-}
-
-export const pg = postgres(postgresOptions);
+  user: process.env.DB_USER || "postgres",
+  database: process.env.DB_NAME || "postgres",
+  password: process.env.DB_PASSWORD || ""
+});
