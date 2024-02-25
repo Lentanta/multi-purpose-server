@@ -4,6 +4,12 @@ import dotenv from "dotenv";
 import notesRouter from "./notes";
 import { sql } from "./postgres";
 
+import cors from "cors";
+import dotenv from "dotenv";
+
+import { sql } from "./postgres";
+
+
 import notesRouter from "./notes";
 
 dotenv.config();
@@ -11,6 +17,7 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.HOST_PORT;
 
+app.use(cors({ origin: "*" }))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -47,7 +54,6 @@ app.get("/reset-database", async (_: Request, res: Response) => {
     res.send("ERROR: " + error)
   }
 })
-
 
 app.listen(port, () => {
   console.log(`Server is running at ${port}`)
