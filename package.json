@@ -7,7 +7,8 @@
     "build": "yarn tsc",
     "start": "node dist/index.js",
     "dev": "yarn nodemon src/index.ts",
-    "init-database": "ts-node src/database/initialize-database.ts"
+    "init-database": "ts-node src/database/initialize-database.ts",
+    "reset-database": "ts-node src/database/reset-database.ts"
   },
   "dependencies": {
     "@fastify/static": "^7.0.1",
